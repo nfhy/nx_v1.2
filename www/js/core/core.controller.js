@@ -5,8 +5,8 @@
   angular
     .module('app')
     .controller('coreController', coreController);
-  coreController.$inject = ['$rootScope', '$ionicModal', '$ionicPopup', '$timeout', '$ionicHistory', '$ionicLoading'];
-  function coreController($rootScope, $ionicModal, $ionicPopup, $timeout, $ionicHistory, $ionicLoading) {
+  coreController.$inject = ['$rootScope', '$ionicModal', '$ionicHistory' ];
+  function coreController($rootScope, $ionicModal, $ionicHistory) {
     /*
     //全局promise跟踪器，主要负责控制加载页面的展示和隐藏
     $rootScope.pendingPromises = {};//延时用promise，主要在异步请求中使用
@@ -41,11 +41,17 @@
       }
     });
     */
-
+    $rootScope.localStorageCheck = function(userInfo) {
+      if (!(userInfo && userInfo.token)) {
+        $rootScope.toLogin();
+        return false;
+      }
+      return true;
+    };
     //当页面检查到会话超时时，调用本方法弹出登录框体
     $rootScope.toLogin = function() {
       $rootScope.openModal();
-    }
+    };
     //弹出登录框体
     $ionicModal.fromTemplateUrl('modal-login.html', {
       animation: 'slide-in-up'

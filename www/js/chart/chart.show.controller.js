@@ -11,9 +11,7 @@
     var vm = this;
     vm.userInfo = localData.get('user_info');
     vm.chartSetting = localData.get('chartSetting');
-    if (!vm.userInfo || !vm.chartSetting) {
-      alert('会话过期，请重新登录...');
-      $state.go('login');
+    if (!$rootScope.localStorageCheck(vm.userInfo)) {
       return;
     }
     _loadData();

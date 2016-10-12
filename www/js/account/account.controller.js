@@ -11,9 +11,7 @@
     var vm = this;
     //获取本机用户信息，如果没有，重新登录
     vm.userInfo = localData.get('user_info');
-    if (!vm.userInfo) {
-      loading.alert('会话过期，请重新登录...', 'error');
-      $state.go('login');
+    if (!$rootScope.localStorageCheck(vm.userInfo)) {
       return;
     }
 

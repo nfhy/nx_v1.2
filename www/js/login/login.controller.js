@@ -59,7 +59,7 @@
           localData.set('need_loop', true);
           vm.isLogin = false;
           //_updateJpushId();
-          $state.reload();
+          $state.go('fields');
           $rootScope.closeModal();
         }
         loading.hide();

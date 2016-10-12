@@ -8,9 +8,9 @@
         .module('app')
         .service('myHttp', myHttp);
 
-    myHttp.$inject = ['$http', '$timeout', '$state', 'localData'];
+    myHttp.$inject = ['$http', '$timeout', '$state', 'localData', 'loading'];
 
-    function myHttp($http, $timeout, $state, localData) {
+    function myHttp($http, $timeout, $state, localData, loading) {
         var myhttp = this;
         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
         var url = 'http://localhost:8080/nxkj/input.do';//www.sznxkj.cn
@@ -47,25 +47,23 @@
                     var innerData = data.data;
                     var resCode = ''+innerData.resCode;
                     if (resCode == '0') {//得到正常返回数据时
-                        var cmdToken = innerData.cmdToken;
                       if (onsuccess)
                         onsuccess(innerData);
                     }
                     else if (resCode == '100010') {//服务器异步处理时
                         //轮询消息，循环查询异步处理结果
-                        var desc = innerData.desc;
                         var cmdToken = innerData.cmdToken;
                         var pollingMsg = {'msg' : 'getResult', 'data' : {'cmdToken' : cmdToken}};
                         //由于服务器异步处理，页面需要每隔1秒询问服务器是否完成操作，操作完成前，遮罩层一直显示
                         _polling(pollingMsg);
                     }
                     else if (resCode == '100013') {
-                        alert("会话超时，请重新登录");
+                      loading.alert("会话超时，请重新登录", 'error');
                         localData.flush();
                         $state.go('login');
                     }
                     else if (resCode == '100015') {
-                        alert("越权操作，请重新登录");
+                      loading.alert("越权操作，请重新登录", error);
                         localData.flush();
                         $state.go('login');
                     }
@@ -88,7 +86,7 @@
                                 onerror(errMsg);
                             }
                             else {
-                                alert(errMsg);
+                              loading.alert(errMsg, 'error');
                             }
                         }
                     }
@@ -99,7 +97,7 @@
                         onerror(data);
                     }
                     else {
-                        alert('出错了：' + data);
+                      loading.alert('出错了：' + data, 'error');
                     }
                 });
 

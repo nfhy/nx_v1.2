@@ -7,7 +7,7 @@
     .module('app')
     .controller('chartShowCtrl', chartShowController);
 
-  function chartShowController($rootScope, myHttp, localData, $state, $ionicLoading) {
+  function chartShowController($rootScope, myHttp, localData, $state, loading) {
     var vm = this;
     vm.userInfo = localData.get('user_info');
     vm.chartSetting = localData.get('chartSetting');
@@ -20,7 +20,7 @@
     //获取历史数据
     //{"msg":"webHistory","data":{"devIndex":100100,"startTime":"2016-01-26 16:20:10","endTime":"",”space”:1,”token”:”zhenglei”}}
     function _loadData() {
-      $rootScope.showLoading();
+      loading.show();
       var postMsg = {'msg' : 'webHistory',
         'data' : {'devIndex' : parseInt(vm.chartSetting.devIndex), 'startTime' : vm.chartSetting.startTime, 'endTime' : vm.chartSetting.endTime, 'space' : vm.chartSetting.space,
           'token' : vm.userInfo.token, 'userName' : vm.userInfo.userName}};
@@ -32,13 +32,11 @@
 
     function _onSuccess(data) {
       _handleData(data.result);
-      $rootScope.pendResolve('generate-chart', undefined, 'success', '', '加载数据成功');
-      $rootScope.hideLoading();
+      loading.hide();
     }
 
     function _onError(data) {
-      $rootScope.pendResolve('generate-chart', undefined, 'error', '', '加载数据失败,'+data);
-      $rootScope.hideLoading();
+      loading.hide('加载数据失败', 'error');
 
     }
     //{"msg":"webHistory","data":{"resCode":"0","desc":"操作完成",”cmdToken”:”xxxxx”,"devIndex":100100,
@@ -46,7 +44,7 @@
     //":[{"val":10.0 ,”warn”:0,"time":"2016-01-26 16:20:00"} space = 1
     var _handleData = function(result) {
       if (!result) {
-        alert('当前设置下没有设备读数');
+        loading.alert('当前设置下没有设备读数', 'error');
       }
 
       if (vm.chartSetting.space == '1') {

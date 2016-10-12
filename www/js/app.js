@@ -3,7 +3,6 @@
   angular.module('app',
     [
       'ionic',
-      'ajoslin.promise-tracker',
       'ionic-datepicker',
       'ionic-timepicker'
     ])

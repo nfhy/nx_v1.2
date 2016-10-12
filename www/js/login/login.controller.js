@@ -8,7 +8,7 @@
     .controller('loginCtrl', loginController);
 
 
-  function loginController($rootScope, $state, localData, myHttp, $ionicLoading, jpushService) {
+  function loginController($rootScope, $state, localData, myHttp, $ionicLoading, jpushService, loading) {
     $rootScope.topLeftButtonShow = false;
     var vm = this;
     vm.isLogin = false;//是否点击了登录按钮，防止重复提交
@@ -27,7 +27,7 @@
      * @private
      */
     function _login() {
-      _showLoading();
+      loading.show();
       vm.isLogin = true;
       vm.isError = false;
       vm.errorMsg = '';
@@ -45,7 +45,7 @@
         var tel = data.tel;
         var enable = '' + data.enable;
         if (enable != '1') {
-          alert('该用户已失效，不能登录');
+          loading.alert('该用户已失效，不能登录', 'error');
           vm.isLogin = false;
         }
         else {
@@ -62,7 +62,7 @@
           $state.reload();
           $rootScope.closeModal();
         }
-        _hideLoading();
+        loading.hide();
       }
     }
 
@@ -71,26 +71,16 @@
       vm.isError = true;
       vm.errorMsg = data;
       vm.isLogin = false;
-      _hideLoading();
+      loading.hide();
     }
 
     function onError(data) {
-      alert('出错了...' + data);
       console.log('err:'+data);
       vm.isLoading = false;
       vm.isError = true;
       vm.errorMsg = '出错了...';
       vm.isLogin = false;
-      _hideLoading();
-    }
-
-    function _showLoading() {
-      $ionicLoading.show({
-        template:'<ion-spinner icon="android"></ion-spinner><br/>登录中...'
-      });
-    }
-    function _hideLoading() {
-      $ionicLoading.hide();
+      loading.hide('出错了...' + data, 'error');
     }
 
     function _updateJpushId() {

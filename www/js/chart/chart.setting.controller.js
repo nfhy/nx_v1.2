@@ -12,13 +12,12 @@
     vm.userInfo = localData.get('user_info');
     if (!vm.userInfo) {
       alert('会话过期，请重新登录...');
-      $rootScope.initResolve();
       $state.go('login');
       return;
     }
     vm.devIndex = $stateParams['devIndex'];
     if ((!vm.devIndex) || isNaN(vm.devIndex)) {
-      alert('参数错误，请返回重新选择');
+      loading.alert('参数错误，请返回重新选择', 'error');
       return;
     }
     var tp = {
@@ -40,7 +39,7 @@
     vm.openTimePicker = function(type) {
       vm.type = type;
       ionicTimePicker.openTimePicker(tp);
-    }
+    };
     var dp = {
       callback: function (val) {  //Mandatory
         if (vm.type == 's') {
@@ -76,7 +75,6 @@
         'space' : vm.space
       }
       localData.set('chartSetting', chartSetting);
-      $rootScope.pendPromise('generate-chart');
       $state.go('chart-show');
     }
 

@@ -7,17 +7,11 @@
     .module('app')
     .controller('fieldListCtrl', fieldListController);
 
-  function fieldListController($rootScope, $scope, $state, localData, myHttp, $ionicLoading, $timeout) {
+  function fieldListController($rootScope, $scope, $state, localData, myHttp, $ionicLoading, $timeout, loading) {
     var vm = this;
-    $rootScope.presentTitle = '我的园地';
     //获取本机用户信息，如果没有，重新登录
     vm.userInfo = localData.get('user_info');
     if (!(vm.userInfo && vm.userInfo.token)) {
-      /*
-      alert('会话过期，请重新登录...');
-      $rootScope.initResolve();
-      $state.go('login');
-      return;*/
       $rootScope.toLogin();
       return;
     }
@@ -49,9 +43,8 @@
     //{"msg":"webField","data":{"fieldIndex":0,”userName”:”zhenglei” ,”token”:”zhenglei”}}
     function _loadFields() {
       if (!vm.looping) {
-        _showLoading();
+        loading.show();
       }
-      $rootScope.pendPromise('load-fields');
       var data = {'msg' : 'appFields' ,
         'data' : {'fieldIndex' : 0, 'userName' : vm.userInfo.userName, 'token' : vm.userInfo.token}};
       var promise = myHttp.post(data);
@@ -60,21 +53,11 @@
       }
       function _onSuccess(data) {
         _handleData(data);
-        $rootScope.pendResolve('load-fields',undefined, 'success', '园地列表刷新', '刷新时间:'+new Date().Format('yyyy-MM-dd hh:mm:ss'));
-        _promiseResolve();
-        _hideLoading();
+        loading.hide();
       }
       function _onError(data) {
-        $rootScope.pendResolve('load-fields', undefined, 'error', '园地列表刷新失败', '失败原因：'+data);
-        _promiseResolve();
-        _hideLoading();
+        loading.hide('加载数据失败', 'error');
       }
-    }
-
-    function _promiseResolve() {
-      $rootScope.pendResolve('finish-edit-field',undefined , 'success','', '园地维护成功');
-      $rootScope.pendResolve('login-success',undefined , 'success', '', '欢迎回来:'+vm.userInfo.username);
-      $scope.$broadcast('scroll.refreshComplete');
     }
     /*
      * {"msg":"webField",
@@ -100,15 +83,6 @@
         devTypeTable[devTypeIndex] = devTypeInfo;
       }
       localData.set('devTypeTable', devTypeTable);
-    }
-
-    function _showLoading() {
-      $ionicLoading.show({
-        template:'<ion-spinner icon="android"></ion-spinner><br/>数据加载中，请稍候'
-      });
-    }
-    function _hideLoading() {
-      $ionicLoading.hide();
     }
 
     function _devInfo(dev) {

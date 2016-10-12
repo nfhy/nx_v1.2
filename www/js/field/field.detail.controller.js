@@ -7,24 +7,23 @@
     .module('app')
     .controller('fieldDetailCtrl', fieldDetailController);
 
-  function fieldDetailController($rootScope, $scope, $state, $stateParams, localData, myHttp, $ionicLoading, $ionicModal) {
+  function fieldDetailController($rootScope, $scope, $state, $stateParams, localData, myHttp, $ionicLoading, $ionicModal, loading) {
     var vm = this;
     //获取本机用户信息，如果没有，重新登录
     vm.userInfo = localData.get('user_info');
     if (!vm.userInfo) {
       alert('会话过期，请重新登录...');
-      $rootScope.initResolve();
       $state.go('login');
       return;
     }
     vm.fieldIndex = $stateParams['fieldIndex'];
     if (isNaN(vm.fieldIndex)) {
-      alert('参数错误，请返回重新选择');
+      loading.alert('参数错误，请返回重新选择', 'error');
       return;
     }
     vm.field = localData.getFieldByFieldIndex(vm.fieldIndex);
     if (!vm.field) {
-      alert('参数错误，请返回重新选择');
+      loading.alert('参数错误，请返回重新选择', 'error');
       return;
     }
     //加载弹出modal
@@ -175,7 +174,7 @@
     // "devList":[{"devIndex":10100,”min”:5.5,”max”:8.0 },{"devIndex":10101,”min”:5.5,”max”:8.0 }]}}
     //修改或新增园地
     function _editSubmit() {
-      $rootScope.showLoading();
+      loading.show();
       vm.field.userName = vm.userInfo.userName;
       vm.field.token = vm.userInfo.token;
       var postMsg = {'msg': 'webModifyField', 'data': vm.field};
@@ -185,14 +184,11 @@
       }
       function _onSuccess() {
         vm.closeEdit();
-        $rootScope.pendResolve('finish-edit-field', undefined, 'success', '操作成功', '');
-        $rootScope.hideLoading();
+        loading.hide('保存成功', 'success');
       }
 
       function _onError(data) {
-        alert('保存失败' + data);
-        $rootScope.pendResolve('finish-edit-field', undefined, 'error', '操作失败', '失败原因:'+data);
-        $rootScope.hideLoading();
+        loading.hide('保存失败' + data, 'error');
       }
     }
     function _chartSetting(dev) {

@@ -2,7 +2,7 @@
   <div class="bar bar-header bar-balanced">
     <h1 class="title">用户信息</h1>
   </div>
-  <ion-content>
+  <ion-content class="has-header padding">
     <ion-list>
       <ion-item class="item-divider text-plain">
         手机号
@@ -11,9 +11,6 @@
         <input type="text" placeholder="请输入手机号" ng-model="account.userInfo.tel">
       </ion-item>
       <ion-toggle ng-model="account.userInfo.bRecvWarn" ng-true-value="1" ng-false-value="0" toggle-class="toggle-balanced">是否接收通知</ion-toggle>
-      <ion-item class="item-text-wrap">
-        &nbsp;
-      </ion-item>
     </ion-list>
     <button class="button button-energized button-block" ng-click="account.submitChange()">
       提交

@@ -34,7 +34,7 @@
       var data = {};
       data.userName = vm.userInfo.userName;
       data.passWord = vm.userInfo.passWord;
-      //jpushService.registId();
+      jpushService.registId();
       var promise = myHttp.post({'msg' : 'login', 'data' : data});
       myHttp.handlePromise(promise, onSuccess, onError, onFail);
       //{"resCode":"0","desc":"",”role”:2,”bRecvWarn”:1,”token”:”zhenglei”}}
@@ -58,7 +58,7 @@
           localData.set('user_info', vm.userInfo);
           localData.set('need_loop', true);
           vm.isLogin = false;
-          //_updateJpushId();
+          _updateJpushId();
           $state.go('fields');
           $rootScope.closeModal();
         }

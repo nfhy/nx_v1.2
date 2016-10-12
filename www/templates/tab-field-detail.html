@@ -1,0 +1,91 @@
+<ion-view view-title="园地详情">
+  <div class="bar bar-header bar-balanced">
+    <button class="button icon ion-chevron-left" ng-click="goBack()"></button>
+    <h1 class="title">园地详情</h1>
+  </div>
+  <ion-content class="has-header padding">
+    <ion-list>
+      <ion-item class="item-icon-right" ng-click="fieldDetail.showEdit('fieldName', 'text')">
+        <span class="text-plain padding-left">园地名</span>
+        <span class="item-note">{{fieldDetail.field.fieldName}}</span>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item-icon-right" ng-click="fieldDetail.showEdit('fieldDesc', 'text')">
+        <span class="text-plain padding-left">园地描述</span>
+        <span class="item-note">{{fieldDetail.field.fieldDesc}}</span>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <!--
+      <ion-item class="item" ng-repeat="dev in fieldDetail.field.devList" type="item-text-wrap" href="#/tab/dev/:devIndex">
+        <ion-list>
+          <ion-item class="item-icon-right" ng-class="fieldDetail.devClass(dev)">
+            <span class="text-plain padding-left">{{fieldDetail.devInfo(dev)}}</span>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </ion-item>
+          <ion-item class="item-icon-right">
+            <span class="text-plain padding-left">最小标准值</span>
+            <span class="item-note">{{fieldDetail.devStandardMinValue(dev)}}</span>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </ion-item>
+          <ion-item class="item-icon-right">
+            <span class="text-plain padding-left">最大标准值</span>
+            <span class="item-note">{{fieldDetail.devStandardMaxValue(dev)}}</span>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </ion-item>
+        </ion-list>
+      </ion-item>
+      -->
+      <item ng-repeat="dev in fieldDetail.field.devList">
+          <ion-item class="item-icon-right item-divider" ng-class="fieldDetail.devClass(dev)"  ng-click="fieldDetail.chartSetting(dev)">
+            <span>{{fieldDetail.devTypeName(dev)}}:{{dev.val}}{{fieldDetail.devParamName(dev)}}</span>
+            <span class="item-note">点击查看历史数据</span>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </ion-item>
+          <ion-item class="item-icon-right" ng-click="fieldDetail.showEdit(dev, 'min')">
+            <span class="text-plain padding-left">最小标准值</span>
+            <span class="item-note">{{dev.min}}{{fieldDetail.devParamName(dev)}}</span>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </ion-item>
+          <ion-item class="item-icon-right" ng-click="fieldDetail.showEdit(dev, 'max')">
+            <span class="text-plain padding-left">最大标准值</span>
+            <span class="item-note">{{dev.max}}{{fieldDetail.devParamName(dev)}}</span>
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </ion-item>
+      </item>
+    </ion-list>
+  </ion-content>
+</ion-view>
+
+<script id="field-edit.html" type="text/ng-template">
+  <div class="modal">
+    <div class="bar bar-assertive">
+      <button ng-click="fieldDetail.closeEdit()" class="button button-clear">返回</button>
+      <h1 class="title"></h1>
+      <button ng-click="fieldDetail.submitEdit()" class="button button-clear">提交</button>
+    </div>
+    <ion-content>
+      <div class="list" style="margin-top: 13px" ng-if="fieldDetail.type!='text'">
+        <div class="item item-divider">
+          {{fieldDetail.title}}设置
+        </div>
+        <div class="item range range-positive">
+          {{fieldDetail.min}}
+          <input type="range" name="volume" step="0.1" min="{{fieldDetail.min}}" max="{{fieldDetail.max}}" ng-model="fieldDetail.aval">
+          {{fieldDetail.max}}
+        </div>
+        <div class="item item-text-wrap text-center">
+          {{fieldDetail.aval}}
+        </div>
+      </div>
+      <div class="list" style="margin-top: 13px" ng-if="fieldDetail.type=='text'">
+        <div class="item item-divider">
+          {{fieldDetail.title}}设置
+        </div>
+        <div class="item item-input">
+          <input type="text" ng-model="fieldDetail.aval">
+        </div>
+      </div>
+    </ion-content>
+  </div>
+</script>
+

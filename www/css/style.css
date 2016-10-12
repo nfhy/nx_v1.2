@@ -1,0 +1,20 @@
+/* Empty. Add your own CSS if you like */
+.text-fine {
+  color : blue;
+}
+
+.text-warn {
+  color : red;
+}
+
+.text-plain {
+  color : #666;
+}
+
+.text-small {
+  font-size: 0.8em;
+}
+
+.maindiv {
+  height:400px;
+}

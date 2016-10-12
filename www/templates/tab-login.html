@@ -1,0 +1,24 @@
+<ion-view view-title="监测小助手">
+  <ion-content class="has-header padding">
+    <div class="list">
+      <form name="loginForm" role="form" class="form-validate padding-top" ng-submit="login.login()">
+        <label class="item item-input input-energized">
+          <span class="input-label">用户名</span>
+          <input type="text" placeholder="请输入用户名" ng-model="login.userInfo.userName" required>
+        </label>
+        <label class="item item-input input-energized">
+          <span class="input-label">密码</span>
+          <input type="password"  placeholder="请输入密码" ng-model="login.userInfo.passWord" required>
+        </label>
+        <div class="padding">
+          <button type="submit" ng-disabled="loginForm.$invalid||login.isLogin" class="button button-block button-balanced">
+            登录
+          </button>
+        </div>
+        <p ng-show="login.isError" class="bg-danger">
+          <em class="icon-circle-cross"></em>{{login.errorMsg}}</p>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>
+

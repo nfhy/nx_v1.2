@@ -1,0 +1,50 @@
+<ion-view view-title="历史数据设定">
+  <div class="bar bar-header bar-balanced">
+    <button class="button icon ion-chevron-left" ng-click="goBack()"></button>
+    <h1 class="title">设定</h1>
+  </div>
+  <ion-content class="has-header padding">
+    <ion-list>
+      <ion-item class="item item-input">
+        <div class="input-label text-fine">
+          统计数据时间间隔
+        </div>
+      </ion-item>
+      <ion-radio ng-model="chartSetting.space" ng-value="1" style="padding-top: 0;padding-bottom: 0">1.按分钟统计</ion-radio>
+      <ion-radio ng-model="chartSetting.space" ng-value="2" style="padding-top: 0;padding-bottom: 0">2.按小时统计</ion-radio>
+      <ion-radio ng-model="chartSetting.space" ng-value="3" style="padding-top: 0;padding-bottom: 0">3.按天统计</ion-radio>
+      <!--
+      <ion-item class="item item-text-wrap text-plain text-small">
+        {{chartSetting.spaceMsg}}
+      </ion-item>-->
+      <ion-item class="item item-divider" ng-show="chartSetting.space>0">
+        <h3 class="text-plain padding-left">统计数据开始时间</h3>
+        <span>{{chartSetting.dt1str}}</span>
+      </ion-item>
+      <ion-item class="item-icon-right" ng-click="chartSetting.openDatePicker('s')"  ng-show="chartSetting.space>0">
+        <span class="text-fine padding-left text-small">设置开始日期</span>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item-icon-right" ng-click="chartSetting.openTimePicker('s')"  ng-show="chartSetting.space>0">
+        <span class="text-fine padding-left text-small">设置开始时间</span>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item item-divider"  ng-show="chartSetting.space>1">
+        <h3 class="text-plain padding-left">统计数据结束时间</h3>
+        <span class="">{{chartSetting.dt2str}}</span>
+      </ion-item>
+      <ion-item class="item-icon-right" ng-click="chartSetting.openDatePicker('e')"   ng-show="chartSetting.space>1">
+        <span class="text-fine padding-left text-small">设置结束日期</span>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item-icon-right" ng-click="chartSetting.openTimePicker('e')"   ng-show="chartSetting.space>1">
+        <span class="text-fine padding-left text-small">设置结束时间</span>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item item-text-wrap text-plain text-small">
+        {{chartSetting.settingMsgStr}}
+      </ion-item>
+    </ion-list>
+    <button ng-click="chartSetting.generateChart()" class="button button-balanced button-block" ng-show="chartSetting.settingMsgStr.length>0">生成折线图</button>
+  </ion-content>
+</ion-view>

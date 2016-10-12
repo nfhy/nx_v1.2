@@ -5,8 +5,9 @@
   angular
     .module('app')
     .controller('coreController', coreController);
-  coreController.$inject = ['$rootScope', 'promiseTracker', '$ionicModal', '$ionicPopup', '$timeout', '$ionicHistory'];
-  function coreController($rootScope, promiseTracker, $ionicModal, $ionicPopup, $timeout, $ionicHistory) {
+  coreController.$inject = ['$rootScope', 'promiseTracker', '$ionicModal', '$ionicPopup', '$timeout', '$ionicHistory', '$ionicLoading'];
+  function coreController($rootScope, promiseTracker, $ionicModal, $ionicPopup, $timeout, $ionicHistory, $ionicLoading) {
+    /*
     //全局promise跟踪器，主要负责控制加载页面的展示和隐藏
     $rootScope.pendingPromises = {};//延时用promise，主要在异步请求中使用
     //开始跟踪延时promise
@@ -28,7 +29,6 @@
         $rootScope.pendResolve(key, null, null, '', '');
       }
     }
-
     $rootScope.promiseTracker = promiseTracker();
     $rootScope.$watch($rootScope.promiseTracker.active, function(isActive) {
       if (isActive) {
@@ -40,6 +40,7 @@
         $rootScope.$broadcast('loadingEnd');
       }
     });
+    */
 
     //当页面检查到会话超时时，调用本方法弹出登录框体
     $rootScope.toLogin = function() {
@@ -68,5 +69,6 @@
     $rootScope.goBack = function() {
       $ionicHistory.goBack(-1);
     }
+
   }
 })();

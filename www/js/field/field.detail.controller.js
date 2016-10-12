@@ -175,7 +175,7 @@
     // "devList":[{"devIndex":10100,”min”:5.5,”max”:8.0 },{"devIndex":10101,”min”:5.5,”max”:8.0 }]}}
     //修改或新增园地
     function _editSubmit() {
-      _showLoading();
+      $rootScope.showLoading();
       vm.field.userName = vm.userInfo.userName;
       vm.field.token = vm.userInfo.token;
       var postMsg = {'msg': 'webModifyField', 'data': vm.field};
@@ -186,22 +186,14 @@
       function _onSuccess() {
         vm.closeEdit();
         $rootScope.pendResolve('finish-edit-field', undefined, 'success', '操作成功', '');
-        _hideLoading();
+        $rootScope.hideLoading();
       }
 
       function _onError(data) {
         alert('保存失败' + data);
         $rootScope.pendResolve('finish-edit-field', undefined, 'error', '操作失败', '失败原因:'+data);
-        _hideLoading();
+        $rootScope.hideLoading();
       }
-    }
-    function _showLoading() {
-      $ionicLoading.show({
-        template:'<ion-spinner icon="android"></ion-spinner><br/>提交中，请稍候'
-      });
-    }
-    function _hideLoading() {
-      $ionicLoading.hide();
     }
     function _chartSetting(dev) {
       var devIndex = dev.devIndex;

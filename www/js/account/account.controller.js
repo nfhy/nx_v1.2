@@ -7,7 +7,7 @@
     .module('app')
     .controller('accountCtrl', accountController);
 
-  function accountController($rootScope, $state, localData, myHttp) {
+  function accountController($rootScope, $state, localData, myHttp, $timeout, loading) {
     var vm = this;
     //获取本机用户信息，如果没有，重新登录
     vm.userInfo = localData.get('user_info');
@@ -28,21 +28,26 @@
       $state.go('login');
     }
     function _submit() {
+      loading.show();
+      $rootScope.pendPromise('finish-edit-user');
       var postData = {
-        'msg':'appUserMgr','data':{'token':vm.userInfo.token ,'userName' : vm.userInfo.userName,
-          'detail': {'tel' : vm.userInfo.tel, 'recvWarn' : vm.userInfo.bRecvWarn, 'userName' : vm.userInfo.userName} }
+        'msg': 'appUserMgr', 'data': {
+          'token': vm.userInfo.token, 'userName': vm.userInfo.userName,
+          'detail': {'tel': vm.userInfo.tel, 'recvWarn': vm.userInfo.bRecvWarn, 'userName': vm.userInfo.userName}
+        }
       };
       var promise = myHttp.post(postData);
       if (promise) {
         myHttp.handlePromise(promise, _onSuccess, _onError);
       }
-
       function _onSuccess() {
         $rootScope.pendResolve('finish-edit-user', undefined, 'success', '操作成功', '');
+        loading.hide();
       }
 
       function _onError(data) {
         $rootScope.pendResolve('finish-edit-user', undefined, 'error', '操作失败', '失败原因:'+data);
+        loading.hide();
       }
     }
   }

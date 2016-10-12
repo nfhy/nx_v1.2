@@ -20,7 +20,7 @@
     //获取历史数据
     //{"msg":"webHistory","data":{"devIndex":100100,"startTime":"2016-01-26 16:20:10","endTime":"",”space”:1,”token”:”zhenglei”}}
     function _loadData() {
-      _showLoading();
+      $rootScope.showLoading();
       var postMsg = {'msg' : 'webHistory',
         'data' : {'devIndex' : parseInt(vm.chartSetting.devIndex), 'startTime' : vm.chartSetting.startTime, 'endTime' : vm.chartSetting.endTime, 'space' : vm.chartSetting.space,
           'token' : vm.userInfo.token, 'userName' : vm.userInfo.userName}};
@@ -33,12 +33,12 @@
     function _onSuccess(data) {
       _handleData(data.result);
       $rootScope.pendResolve('generate-chart', undefined, 'success', '', '加载数据成功');
-      _hideLoading();
+      $rootScope.hideLoading();
     }
 
     function _onError(data) {
       $rootScope.pendResolve('generate-chart', undefined, 'error', '', '加载数据失败,'+data);
-      _hideLoading();
+      $rootScope.hideLoading();
 
     }
     //{"msg":"webHistory","data":{"resCode":"0","desc":"操作完成",”cmdToken”:”xxxxx”,"devIndex":100100,
@@ -126,14 +126,6 @@
         },
         data: data
       }
-    }
-    function _showLoading() {
-      $ionicLoading.show({
-        template:'<ion-spinner icon="android"></ion-spinner><br/>数据加载中，请稍候'
-      });
-    }
-    function _hideLoading() {
-      $ionicLoading.hide();
     }
     function _devTypeName(dev) {
       var devTypeName = '';

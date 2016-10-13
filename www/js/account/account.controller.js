@@ -7,7 +7,7 @@
     .module('app')
     .controller('accountCtrl', accountController);
 
-  function accountController($rootScope, $state, localData, myHttp, $timeout, loading) {
+  function accountController($rootScope, $state, localData, myHttp, $timeout, loading, $ionicPopup) {
     var vm = this;
     //获取本机用户信息，如果没有，重新登录
     vm.userInfo = localData.get('user_info');
@@ -21,8 +21,22 @@
     //##################################
     //function
     function _logOut() {
-      localData.flush();
-      $state.go('login');
+      var confirm = $ionicPopup.confirm(
+        {
+          title: '确定要退出登录吗', // String. The title of the popup.
+          cancelText: '取消', // String (default: 'Cancel'). The text of the Cancel button.
+          cancelType: 'button-balanced', // String (default: 'button-default'). The type of the Cancel button.
+          okText: '退出登录', // String (default: 'OK'). The text of the OK button.
+          okType: 'button-assertive', // String (default: 'button-positive'). The type of the OK button.
+        }
+      );
+      confirm.then(function(res) {
+        if(res) {
+          localData.flush();
+          $state.go('fields');
+        } else {
+        }
+      });
     }
     function _submit() {
       loading.show();

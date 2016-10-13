@@ -10,8 +10,7 @@
   function fieldListController($rootScope, $scope, $state, localData, myHttp, $ionicLoading, $timeout, loading) {
     var vm = this;
     //获取本机用户信息，如果没有，重新登录
-    vm.userInfo = localData.get('user_info');
-    if (!$rootScope.localStorageCheck(vm.userInfo)) {
+    if (!$rootScope.localStorageCheck(localData.get('user_info'))) {
       return;
     }
     vm.fields = [];//园地信息
@@ -31,8 +30,10 @@
       if (needLoop) {
         $timeout(function () {
           vm.looping = true;
-          _loadFields();
-        }, 1000 * 50).then(function () {
+          if ($rootScope.localStorageCheck(localData.get('user_info'))) {
+            _loadFields();
+          }
+        }, 1000 * 20).then(function () {
           _loopLoadData();
         });
       }
@@ -41,6 +42,7 @@
     //获取区域列表，修改、删除、增加后都应该调用该方法并通知ngtable重载
     //{"msg":"webField","data":{"fieldIndex":0,”userName”:”zhenglei” ,”token”:”zhenglei”}}
     function _loadFields() {
+      vm.userInfo = localData.get('user_info');
       if (!vm.looping) {
         loading.show();
       }
@@ -89,7 +91,7 @@
       var devParam = '';
       var devTypeIndex = dev.devTypeIndex;
       var devTypeTable = localData.get('devTypeTable');
-      if (devTypeIndex && devTypeTable) {
+      if (devTypeIndex && devTypeTable && devTypeTable[devTypeIndex]) {
         devTypeName = devTypeTable[devTypeIndex].devTypeName;
         devParam = devTypeTable[devTypeIndex].paramName;
       }
@@ -105,7 +107,7 @@
       var devParam = '';
       var devTypeIndex = dev.devTypeIndex;
       var devTypeTable = localData.get('devTypeTable');
-      if (devTypeIndex && devTypeTable) {
+      if (devTypeIndex && devTypeTable && devTypeTable[devTypeIndex]) {
         devParam = devTypeTable[devTypeIndex].paramName;
       }
       return devParam;
@@ -115,7 +117,7 @@
       var devTypeName = '';
       var devTypeIndex = dev.devTypeIndex;
       var devTypeTable = localData.get('devTypeTable');
-      if (devTypeIndex && devTypeTable) {
+      if (devTypeIndex && devTypeTable && devTypeTable[devTypeIndex]) {
         devTypeName = devTypeTable[devTypeIndex].devTypeName;
       }
       return devTypeName;

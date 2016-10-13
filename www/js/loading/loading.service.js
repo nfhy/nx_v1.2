@@ -26,7 +26,7 @@
     };
     var errorAlert = {
       'okText': '好的',
-      'okType': 'button-danger'
+      'okType': 'button-assertive'
     }
     var _alert = function(text, type) {
       if (text && type) {

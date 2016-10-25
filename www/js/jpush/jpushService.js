@@ -56,16 +56,18 @@
         $window.plugins.jPushPlugin.getRegistrationID(onGetRegistradionID);
       }
 
+      var enable = false;
+      var _blank = function(){};
 
-      jpushServiceFactory.init=_init;
-      jpushServiceFactory.stopPush=_stopPush;
-      jpushServiceFactory.resumePush=_resumePush;
+      jpushServiceFactory.init=enable?_init:_blank;
+      jpushServiceFactory.stopPush=enable?_stopPush:_blank;
+      jpushServiceFactory.resumePush=enable?_resumePush:_blank;
 
-      jpushServiceFactory.setTagsWithAlias=_setTagsWithAlias;
-      jpushServiceFactory.setTags=_setTags;
-      jpushServiceFactory.setAlias=_setAlias;
+      jpushServiceFactory.setTagsWithAlias=enable?_setTagsWithAlias:_blank;
+      jpushServiceFactory.setTags=enable?_setTags:_blank;
+      jpushServiceFactory.setAlias=enable?_setAlias:_blank;
 
-      jpushServiceFactory.registId=_registId;
+      jpushServiceFactory.registId=enable?_registId:_blank;
 
       return jpushServiceFactory;
     }

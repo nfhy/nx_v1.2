@@ -7,8 +7,15 @@
     <ion-list>
       <ion-item class="item item-icon-right" ng-repeat="afield in fields.fields" type="item-text-wrap" href="#/fields/{{afield.fieldIndex}}">
         <h2 class="text-plain">{{afield.fieldName}}</h2>
-        <span ng-repeat="dev in afield.devList" ng-class="fields.devClass(dev)">{{fields.devTypeName(dev)}}:{{dev.val}}{{fields.devParamName(dev)}}&nbsp;&nbsp;&nbsp;</span>
         <i class="icon ion-chevron-right icon-accessory"></i>
+        <div class="list">
+          <span class="item" href="#" ng-repeat="dev in afield.devList" ng-class="fields.devClass(dev)"  style="border: 0">
+            {{fields.devTypeName(dev)}}
+            <span class="item-note" ng-class="fields.devClass(dev)">
+              {{dev.val}}{{fields.devParamName(dev)}}
+            </span>
+          </span>
+        </div>
       </ion-item>
     </ion-list>
   </ion-content>

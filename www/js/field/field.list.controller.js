@@ -49,6 +49,9 @@
       var data = {'msg' : 'appFields' ,
         'data' : {'fieldIndex' : 0, 'userName' : vm.userInfo.userName, 'token' : vm.userInfo.token}};
       var promise = myHttp.post(data);
+      promise.finally(function() {
+        $scope.$broadcast('scroll.refreshComplete');
+      });
       if(promise) {
         myHttp.handlePromise(promise, _onSuccess, _onError);
       }

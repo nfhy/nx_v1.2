@@ -5,8 +5,8 @@
   angular
     .module('app')
     .controller('coreController', coreController);
-  coreController.$inject = ['$rootScope', '$ionicModal', '$ionicHistory' ];
-  function coreController($rootScope, $ionicModal, $ionicHistory) {
+  coreController.$inject = ['$rootScope', '$ionicModal', '$ionicHistory', 'loading' ];
+  function coreController($rootScope, $ionicModal, $ionicHistory, loading) {
     /*
     //全局promise跟踪器，主要负责控制加载页面的展示和隐藏
     $rootScope.pendingPromises = {};//延时用promise，主要在异步请求中使用
@@ -50,6 +50,7 @@
     };
     //当页面检查到会话超时时，调用本方法弹出登录框体
     $rootScope.toLogin = function() {
+      loading.hide();
       $rootScope.openModal();
     };
     //弹出登录框体

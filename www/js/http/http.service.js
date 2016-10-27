@@ -125,6 +125,9 @@
     function _post(data) {
       var config = {};
       config.t = new Date().getTime();
+      data = data || {};
+      data.data = data.data || {};
+      data.data.isApp = true;
       return $http.post(url, data, config);
     }
 

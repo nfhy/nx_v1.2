@@ -32,6 +32,13 @@
       );
       confirm.then(function(res) {
         if(res) {
+          var postData = {
+            'msg': 'logOut',
+            'data': {
+              'token': vm.userInfo.token, 'userName': vm.userInfo.userName
+            }
+          };
+          var promise = myHttp.post(postData);
           localData.flush();
           $state.go('fields');
         } else {
@@ -51,6 +58,7 @@
         myHttp.handlePromise(promise, _onSuccess, _onError);
       }
       function _onSuccess() {
+        localData.set('user_info', vm.userInfo);
         loading.hide('保存成功', 'success');
       }
 

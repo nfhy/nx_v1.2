@@ -7,7 +7,7 @@
     .module('app')
     .controller('accountCtrl', accountController);
 
-  function accountController($rootScope, $state, localData, myHttp, $timeout, loading, $ionicPopup) {
+  function accountController($scope, $rootScope, $state, localData, myHttp, loading,  $ionicModal, $ionicPopup) {
     var vm = this;
     //获取本机用户信息，如果没有，重新登录
     vm.userInfo = localData.get('user_info');
@@ -15,6 +15,8 @@
       return;
     }
 
+    vm.oldPwd = "";
+    vm.newPwd = "";
     vm.logOut = _logOut;
     vm.submitChange = _submit;
 
@@ -66,5 +68,52 @@
         loading.hide('保存失败', 'error');
       }
     }
+
+
+    //加载弹出modal
+    $ionicModal.fromTemplateUrl('accourt-changePwd.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+
+    vm.showEdit = function() {
+      $scope.modal.show();
+    };
+    vm.closeEdit = function() {
+      $scope.modal.hide();
+    };
+    vm.submitEdit = function() {
+      loading.show();
+      var postData = {
+        'msg':'changePwd','data':{'token':vm.userInfo.token ,'userName' : vm.userInfo.userName, 'oldPwd': vm.oldPwd, 'newPwd': vm.newPwd }
+      };
+      var promise = myHttp.post(postData);
+      if (promise) {
+        myHttp.handlePromise(promise, _onsuccess, _onerror);
+      }
+      function _onsuccess() {
+        vm.closeEdit();
+        loading.hide('保存成功', 'success');
+      }
+
+      function _onerror(data) {
+        loading.hide(data, 'error');
+      }
+    };
+    //当我们用完模型时，清除它！
+    $scope.$on('$destroy', function() {
+      $scope.modal.remove();
+    });
+    // 当隐藏模型时执行动作
+    $scope.$on('modal.hide', function() {
+      // 执行动作
+    });
+    // 当移动模型时执行动作
+    $scope.$on('modal.removed', function() {
+      // 执行动作
+    });
+
   }
 })();

@@ -12,8 +12,12 @@
       </ion-item>
       <ion-toggle ng-model="account.userInfo.bRecvWarn" ng-true-value="1" ng-false-value="0" toggle-class="toggle-balanced">是否接收通知</ion-toggle>
     </ion-list>
-    <button class="button button-energized button-block" ng-click="account.submitChange()">
+    <button class="button button-positive button-block" ng-click="account.submitChange()">
       提交
+    </button>
+
+    <button class="button button-energized button-block" ng-click="account.showEdit()">
+      修改密码
     </button>
 
     <button class="button button-assertive button-block" ng-click="account.logOut()">
@@ -22,3 +26,26 @@
 
   </ion-content>
 </ion-view>
+
+<script id="accourt-changePwd.html" type="text/ng-template">
+  <div class="modal">
+    <div class="bar bar-assertive">
+      <button ng-click="account.closeEdit()" class="button button-clear">返回</button>
+      <h1 class="title"></h1>
+      <button ng-click="account.submitEdit()" class="button button-clear">提交</button>
+    </div>
+    <ion-content>
+      <div class="list" style="margin-top: 13px">
+        <div class="item item-divider">
+          密码修改
+        </div>
+        <div class="item item-input">
+          <input type="password" ng-model="account.oldPwd" placeholder="请输入旧密码">
+        </div>
+        <div class="item item-input">
+          <input type="password" ng-model="account.newPwd" placeholder="请输入新密码">
+        </div>
+      </div>
+    </ion-content>
+  </div>
+</script>

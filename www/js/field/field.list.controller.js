@@ -13,7 +13,7 @@
     if (!$rootScope.localStorageCheck(localData.get('user_info'))) {
       return;
     }
-    vm.fields = [];//园地信息
+    vm.fields = [];//油箱信息
     vm.loadFields = _loadFields;
     vm.loopLoadData = _loopLoadData;
     vm.devInfo = _devInfo;
@@ -38,7 +38,7 @@
         });
       }
     }
-    //加载园地信息
+    //加载油箱信息
     //获取区域列表，修改、删除、增加后都应该调用该方法并通知ngtable重载
     //{"msg":"webField","data":{"fieldIndex":0,”userName”:”zhenglei” ,”token”:”zhenglei”}}
     function _loadFields() {

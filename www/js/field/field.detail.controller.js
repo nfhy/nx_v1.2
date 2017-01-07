@@ -37,8 +37,8 @@
       vm.title = '';
       vm.type = type;
       switch (key) {
-        case 'fieldName' : vm.title = '园地名'; vm.aval = vm.field[key]; break;
-        case 'fieldDesc' : vm.title = '园地描述'; vm.aval = vm.field[key]; break;
+        case 'fieldName' : vm.title = '油箱名'; vm.aval = vm.field[key]; break;
+        case 'fieldDesc' : vm.title = '油箱描述'; vm.aval = vm.field[key]; break;
         default : {
           var dev = key;
           var devTypeIndex = dev.devTypeIndex;
@@ -170,7 +170,7 @@
     // ”data”:
     // {"fieldIndex":1,"fieldName":"甲鱼塘1",”fieldDesc”:”区域描述”, ”userName”:”zhenglei”, ”token”:”zhenglei”,
     // "devList":[{"devIndex":10100,”min”:5.5,”max”:8.0 },{"devIndex":10101,”min”:5.5,”max”:8.0 }]}}
-    //修改或新增园地
+    //修改或新增油箱
     function _editSubmit() {
       loading.show();
       vm.field.userName = vm.userInfo.userName;
